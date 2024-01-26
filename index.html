@@ -15,18 +15,18 @@
             <!-- Input From Date Div -->
             <div class="flex flex-col gap-2 w-full">
                 <h3 class="tracking-wider text-lg md:text-xl">From</h3>
-                <!-- Date Div -->
+                <!-- Date Divs -->
                 <div class="flex flex-col gap-4  md:gap-8 md:flex-row">
                     <div class="flex flex-col gap-2 w-full">
                         <label for="fromDay" class="tracking-wider text-[9px] md:text-[11px] text-[purple]">DAY</label>
-                        <input onfocusout="checkDay(this, 'f')"
+                        <input onfocusout="checkDay('from')"
                             class="border p-1 px-2 md:p-2 rounded-sm focus:outline-none" type="number" placeholder="DD"
                             id="fromDay">
                     </div>
                     <div class="flex flex-col gap-2 w-full">
                         <label for="fromMonth"
                             class="tracking-wider text-[9px] md:text-[11px] text-[purple]">MONTH</label>
-                        <input onfocusout="checkMonth(this, 'f')"
+                        <input onfocusout="checkMonth('from')"
                             class="border p-1 px-2 md:p-2 rounded-sm focus:outline-none" type="number" placeholder="MM"
                             id="fromMonth">
                     </div>
@@ -40,22 +40,21 @@
                 <!-- Error Message (If Any) -->
                 <p id="fromError" class="hidden tracking-wider text-[10px] md:text-[12px] text-[red]">Invalid Date!</p>
             </div>
-            <hr class="my-2" />
+            <hr class="my-2 border-purple-300" />
             <!-- Input To Date Div -->
             <div class="flex flex-col gap-2 w-full">
                 <h3 class="tracking-wider text-lg md:text-xl">To</h3>
-                <!-- Date Div -->
+                <!-- Date Divs -->
                 <div class="flex flex-col gap-4 w-full md:gap-8 md:flex-row">
                     <div class="flex flex-col gap-2 w-full">
                         <label for="toDay" class="tracking-wider text-[9px] md:text-[11px] text-[purple]">DAY</label>
-                        <input onfocusout="checkDay(this, 't')"
-                            class="border p-1 px-2 md:p-2 rounded-sm focus:outline-none" type="number" placeholder="DD"
-                            id="toDay">
+                        <input onfocusout="checkDay('to')" class="border p-1 px-2 md:p-2 rounded-sm focus:outline-none"
+                            type="number" placeholder="DD" id="toDay">
                     </div>
                     <div class="flex flex-col gap-2 w-full">
                         <label for="toMonth"
                             class="tracking-wider text-[9px] md:text-[11px] text-[purple]">MONTH</label>
-                        <input onfocusout="checkMonth(this, 't')"
+                        <input onfocusout="checkMonth('to')"
                             class="border p-1 px-2 md:p-2 rounded-sm focus:outline-none" type="number" placeholder="MM"
                             id="toMonth">
                     </div>
@@ -68,8 +67,14 @@
                 <!-- Error Message (If Any) -->
                 <p id="toError" class="hidden tracking-wider text-[10px] md:text-[12px] text-[red]">Invalid Date!</p>
             </div>
-            <hr class="my-2" />
-            <button class="bg-purple-700 text-white tracking-wide rounded-sm font-bold py-2">Calculate</button>
+            <!-- Comparision Error -->
+            <p id="cError" class="hidden tracking-wider font-bold text-center text-sm text-[red]">From Date cannot be
+                bigger than To
+                Date
+            </p>
+            <!-- Calculate Button -->
+            <button
+                class="my-2 bg-purple-700 text-white tracking-wide rounded-sm font-bold py-2 focus:outline-none">Calculate</button>
         </div>
     </main>
     <script src="./script.js"></script>

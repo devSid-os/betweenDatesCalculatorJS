@@ -9,6 +9,7 @@ const toYear = document.getElementById("toYear");
 const toError = document.getElementById("toError");
 
 const cError = document.getElementById("cError");
+const calBtn = document.getElementById("calBtn");
 
 const date = new Date();
 
@@ -57,7 +58,7 @@ function checkDay(prefix) {
     const day = document.getElementById(`${prefix}Day`).value;
     const month = document.getElementById(`${prefix}Month`).value;
     if (!day) {
-        if (type === 'from') fromDay.value = date.getDate();
+        if (prefix === 'from') fromDay.value = date.getDate();
         else toDay.value = date.getDate();
         return;
     }
@@ -70,7 +71,7 @@ function checkMonth(prefix) {
     const day = document.getElementById(`${prefix}Day`).value;
     const month = document.getElementById(`${prefix}Month`).value;
     if (!month) {
-        if (type === 'from') fromMonth.value = date.getMonth() + 1;
+        if (prefix === 'from') fromMonth.value = date.getMonth() + 1;
         else toMonth.value = date.getMonth() + 1;
         return;
     }
@@ -80,3 +81,77 @@ function checkMonth(prefix) {
     compareDates();
 }
 
+calBtn.addEventListener("click", function () {
+
+    if (fromMonth.value == 2) {
+        if (isLeapYear(fromYear.value)) {
+            if (fromDay.value < 1 || fromDay.value > 29) fromError.classList.remove("hidden");
+            else fromError.classList.add("hidden");
+        }
+        else {
+            if (fromDay.value < 1 || fromDay.value > 28) fromError.classList.remove("hidden");
+            else fromError.classList.add("hidden");
+        }
+    }
+    else {
+        // Months with 31 days
+        switch (parseInt(fromMonth.value)) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                if (fromDay.value < 1 || fromDay.value > 31) fromError.classList.remove("hidden");
+                else fromError.classList.add("hidden");
+                break;
+            // Months with 30 days
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                if (fromDay.value < 1 || fromDay.value > 30) fromError.classList.remove("hidden");
+                else fromError.classList.add("hidden");
+                break;
+            default:
+                fromError.classList.remove("hidden");
+        }
+    }
+
+    if (toMonth.value == 2) {
+        if (isLeapYear(toYear.value)) {
+            if (toDay.value < 1 || toDay.value > 29) toError.classList.remove("hidden");
+            else toError.classList.add("hidden");
+        }
+        else {
+            if (toDay.value < 1 || toDay.value > 28) toError.classList.remove("hidden");
+            else toError.classList.add("hidden");
+        }
+    }
+    else {
+        // Months with 31 days
+        switch (parseInt(toMonth.value)) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                if (toDay.value < 1 || toDay.value > 31) toError.classList.remove("hidden");
+                else toError.classList.add("hidden");
+                break;
+            // Months with 30 days
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                if (toDay.value < 1 || toDay.value > 30) toError.classList.remove("hidden");
+                else toError.classList.add("hidden");
+                break;
+            default:
+                toError.classList.remove("hidden");
+        }
+    }
+});

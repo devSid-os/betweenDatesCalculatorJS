@@ -17,6 +17,7 @@ fromDay.setAttribute("min", 1);
 fromDay.setAttribute("max", 31);
 fromMonth.setAttribute("min", 1);
 fromMonth.setAttribute("max", 12);
+fromYear.setAttribute("min", 1971);
 fromDay.value = date.getDate();
 fromMonth.value = date.getMonth() + 1;
 fromYear.value = date.getFullYear();
@@ -25,6 +26,7 @@ toDay.setAttribute("min", 1);
 toDay.setAttribute("max", 31);
 toMonth.setAttribute("min", 1);
 toMonth.setAttribute("max", 12);
+toYear.setAttribute("min", 1971);
 toDay.value = date.getDate();
 toMonth.value = date.getMonth() + 1;
 toYear.value = date.getFullYear();
@@ -35,6 +37,11 @@ function isLeapYear(year) {
         return true;
     }
     return false;
+}
+
+function checkRange(value, max) {
+    if (value < 1 || value > max) return false;
+    return true;
 }
 
 function setError(prefix) {
@@ -62,11 +69,12 @@ function checkDay(prefix) {
         else toDay.value = date.getDate();
         return;
     }
-    if (day < 1 || day > 31 || month < 1 || month > 12) setError(prefix);
+    if (!checkRange(day, 31) || !checkRange(month, 12)) setError(prefix);
     else removeError(prefix);
 
     compareDates();
 }
+
 function checkMonth(prefix) {
     const day = document.getElementById(`${prefix}Day`).value;
     const month = document.getElementById(`${prefix}Month`).value;
@@ -75,21 +83,36 @@ function checkMonth(prefix) {
         else toMonth.value = date.getMonth() + 1;
         return;
     }
-    if (day < 1 || day > 31 || month < 1 || month > 12) setError(prefix);
+    if (!checkRange(day, 31) || !checkRange(month, 12)) setError(prefix);
     else removeError(prefix);
 
     compareDates();
+}
+
+function checkYear() {
+    compareDates();
+}
+// console.log(moment('2014-02-03'))
+
+function calculateResults() {
+    var fromDate = moment(`${fromYear.value}-${fromMonth.value}-${fromDay.value}`);
+    var toDate = moment(`${toYear.value}-${toMonth.value}-${toDay.value}`);
+
+    const diffObj = moment.duration(toDate.diff(fromDate));
+    document.getElementById("yearResult").textContent = diffObj._data.years;
+    document.getElementById("monthResult").textContent = diffObj._data.months;
+    document.getElementById("dayResult").textContent = diffObj._data.days;
 }
 
 calBtn.addEventListener("click", function () {
 
     if (fromMonth.value == 2) {
         if (isLeapYear(fromYear.value)) {
-            if (fromDay.value < 1 || fromDay.value > 29) fromError.classList.remove("hidden");
+            if (!checkRange(fromDay.value, 29)) fromError.classList.remove("hidden");
             else fromError.classList.add("hidden");
         }
         else {
-            if (fromDay.value < 1 || fromDay.value > 28) fromError.classList.remove("hidden");
+            if (!checkRange(fromDay.value, 28)) fromError.classList.remove("hidden");
             else fromError.classList.add("hidden");
         }
     }
@@ -103,7 +126,7 @@ calBtn.addEventListener("click", function () {
             case 8:
             case 10:
             case 12:
-                if (fromDay.value < 1 || fromDay.value > 31) fromError.classList.remove("hidden");
+                if (!checkRange(fromDay.value, 31)) fromError.classList.remove("hidden");
                 else fromError.classList.add("hidden");
                 break;
             // Months with 30 days
@@ -111,7 +134,7 @@ calBtn.addEventListener("click", function () {
             case 6:
             case 9:
             case 11:
-                if (fromDay.value < 1 || fromDay.value > 30) fromError.classList.remove("hidden");
+                if (!checkRange(fromDay.value, 30)) fromError.classList.remove("hidden");
                 else fromError.classList.add("hidden");
                 break;
             default:
@@ -121,11 +144,11 @@ calBtn.addEventListener("click", function () {
 
     if (toMonth.value == 2) {
         if (isLeapYear(toYear.value)) {
-            if (toDay.value < 1 || toDay.value > 29) toError.classList.remove("hidden");
+            if (!checkRange(toDay.value, 29)) toError.classList.remove("hidden");
             else toError.classList.add("hidden");
         }
         else {
-            if (toDay.value < 1 || toDay.value > 28) toError.classList.remove("hidden");
+            if (!checkRange(toDay.value, 28)) toError.classList.remove("hidden");
             else toError.classList.add("hidden");
         }
     }
@@ -139,7 +162,7 @@ calBtn.addEventListener("click", function () {
             case 8:
             case 10:
             case 12:
-                if (toDay.value < 1 || toDay.value > 31) toError.classList.remove("hidden");
+                if (!checkRange(toDay.value, 31)) toError.classList.remove("hidden");
                 else toError.classList.add("hidden");
                 break;
             // Months with 30 days
@@ -147,11 +170,12 @@ calBtn.addEventListener("click", function () {
             case 6:
             case 9:
             case 11:
-                if (toDay.value < 1 || toDay.value > 30) toError.classList.remove("hidden");
+                if (!checkRange(toDay.value, 30)) toError.classList.remove("hidden");
                 else toError.classList.add("hidden");
                 break;
             default:
                 toError.classList.remove("hidden");
         }
     }
+    if (cError.classList.contains("hidden") && fromError.classList.contains("hidden") && toError.classList.contains("hidden")) calculateResults();
 });

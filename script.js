@@ -92,7 +92,6 @@ function checkMonth(prefix) {
 function checkYear() {
     compareDates();
 }
-// console.log(moment('2014-02-03'))
 
 function calculateResults() {
     var fromDate = moment(`${fromYear.value}-${fromMonth.value}-${fromDay.value}`);
@@ -179,3 +178,10 @@ calBtn.addEventListener("click", function () {
     }
     if (cError.classList.contains("hidden") && fromError.classList.contains("hidden") && toError.classList.contains("hidden")) calculateResults();
 });
+
+function changeTheme() {
+    var htmlTag = document.getElementsByTagName("html")[0];
+    if (htmlTag.classList.contains("dark"))
+        htmlTag.setAttribute("class", "");
+    else htmlTag.setAttribute("class", "dark");
+}

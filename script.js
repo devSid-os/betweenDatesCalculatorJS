@@ -1,3 +1,4 @@
+import { intervalToDuration } from "./node_modules/date-fns/intervalToDuration.mjs";
 const fromDay = document.getElementById("fromDay");
 const fromMonth = document.getElementById("fromMonth");
 const fromYear = document.getElementById("fromYear");
@@ -7,6 +8,10 @@ const toDay = document.getElementById("toDay");
 const toMonth = document.getElementById("toMonth");
 const toYear = document.getElementById("toYear");
 const toError = document.getElementById("toError");
+
+const yearResult = document.getElementById("yearResult");
+const monthResult = document.getElementById("monthResult");
+const dayResult = document.getElementById("dayResult")
 
 const cError = document.getElementById("cError");
 const calBtn = document.getElementById("calBtn");
@@ -75,6 +80,9 @@ function checkDay(prefix) {
     compareDates();
 }
 
+fromDay.addEventListener("focusout", () => checkDay('from'));
+toDay.addEventListener("focusout", () => checkDay('to'));
+
 function checkMonth(prefix) {
     const day = document.getElementById(`${prefix}Day`).value;
     const month = document.getElementById(`${prefix}Month`).value;
@@ -89,18 +97,25 @@ function checkMonth(prefix) {
     compareDates();
 }
 
+fromMonth.addEventListener("focusout", () => checkMonth('from'));
+toMonth.addEventListener("focusout", () => checkMonth('to'));
+
+
 function checkYear() {
     compareDates();
 }
 
-function calculateResults() {
-    var fromDate = moment(`${fromYear.value}-${fromMonth.value}-${fromDay.value}`);
-    var toDate = moment(`${toYear.value}-${toMonth.value}-${toDay.value}`);
+fromYear.addEventListener("focusout", () => checkYear());
+toYear.addEventListener("focusout", () => checkYear());
 
-    const diffObj = moment.duration(toDate.diff(fromDate));
-    document.getElementById("yearResult").textContent = diffObj._data.years;
-    document.getElementById("monthResult").textContent = diffObj._data.months;
-    document.getElementById("dayResult").textContent = diffObj._data.days;
+function calculateResults() {
+    const diffObj = intervalToDuration({
+        start: new Date(fromYear.value, fromMonth.value - 1, fromDay.value),
+        end: new Date(toYear.value, toMonth.value - 1, toDay.value),
+    })
+    yearResult.textContent = diffObj.years ? diffObj.years : 0;
+    monthResult.textContent = diffObj.months ? diffObj.months : 0;
+    dayResult.textContent = diffObj.days ? diffObj.days + 2 : 0;
 }
 
 calBtn.addEventListener("click", function () {

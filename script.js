@@ -273,4 +273,4 @@ function changeTheme() {
         htmlTag.setAttribute("class", "");
     else htmlTag.setAttribute("class", "dark");
 }
-document.getElementById("themeButton").addEventListener("click", changeTheme)
+document.getElementById("themeButton").addEventListener("click", changeTheme);

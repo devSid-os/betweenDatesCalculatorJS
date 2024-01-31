@@ -157,25 +157,22 @@ function calculateResults() {
         diffObj.months = diffObj.months % 12;
         if (diffObj.months > 12) diffObj.years = diffObj.years + 1;
     }
-    if (includeYears.checked && includeMonths.checked && includeDays.checked) {
-        yearResult.textContent = diffObj.years ? diffObj.years : 0;
-        monthResult.textContent = diffObj.months ? diffObj.months : 0;
-        dayResult.textContent = diffObj.days ? diffObj.days : 0;
-    }
-    else if (!includeYears.checked && includeMonths.checked && includeDays.checked) {
+    yearResult.textContent = diffObj.years ? diffObj.years : 0;
+    monthResult.textContent = diffObj.months ? diffObj.months : 0;
+    dayResult.textContent = diffObj.days ? diffObj.days : 0;
+    if (!includeYears.checked && includeMonths.checked && includeDays.checked) {
         yearResult.textContent = '--';
-        monthResult.textContent = diffObj.months ? diffObj.months + (diffObj.years * 12) : (diffObj.years * 12);
-        dayResult.textContent = diffObj.days ? diffObj.days : 0;
+        monthResult.textContent = parseInt(monthResult.textContent) + (diffObj?.years * 12);
     }
     else if (!includeYears.checked && !includeMonths.checked && includeDays.checked) {
         yearResult.textContent = "--";
         monthResult.textContent = "--";
-        dayResult.textContent = diffObj.days ? diffObj.days + parseInt(diffObj.months * 30.4167) + (diffObj.years * 365) + countLeapYears(fromYear.value, toYear.value) : parseInt(diffObj.months * 30) + (diffObj.years * 365) + countLeapYears(fromYear.value, toYear.value);
+        dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj?.months * 30.4167) + (diffObj?.years * 365) + countLeapYears(fromYear.value, toYear.value);
     }
     else if (includeYears.checked && !includeMonths.checked && includeDays.checked) {
         yearResult.textContent = diffObj.years ? diffObj.years : 0;
         monthResult.textContent = "--";
-        dayResult.textContent = diffObj.days ? diffObj.days + parseInt(diffObj.months * 30.4167) : parseInt(diffObj.months * 30.4167) + 0;
+        dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj.months * 30.4167);
     }
 }
 

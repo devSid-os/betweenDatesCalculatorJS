@@ -13,6 +13,12 @@ const yearResult = document.getElementById("yearResult");
 const monthResult = document.getElementById("monthResult");
 const dayResult = document.getElementById("dayResult")
 
+// Get Checkboxes
+const includeEndDate = document.getElementById("includeEndDate");
+const includeYears = document.getElementById("includeYears");
+const includeMonths = document.getElementById("includeMonths");
+const includeDays = document.getElementById("includeDays");
+
 const cError = document.getElementById("cError");
 const calBtn = document.getElementById("calBtn");
 
@@ -36,12 +42,34 @@ toDay.value = date.getDate();
 toMonth.value = date.getMonth() + 1;
 toYear.value = date.getFullYear();
 
+
 function isLeapYear(year) {
     if (year % 4 === 0) {
         if (year % 100 === 0) return (year % 400) === 0;
         return true;
     }
     return false;
+}
+
+function countLeapYears(sYear, eYear) {
+    var days = 0;
+    sYear = parseInt(sYear);
+    eYear = parseInt(eYear);
+    sYear++;
+    if (isLeapYear(sYear)) {
+        while (sYear <= eYear) {
+            days += 1;
+            sYear += 4;
+        }
+    }
+    else {
+        while (!isLeapYear(sYear)) sYear++;
+        while (sYear <= eYear) {
+            days += 1;
+            sYear += 4;
+        }
+    }
+    return days;
 }
 
 function checkRange(value, max) {
@@ -109,13 +137,41 @@ fromYear.addEventListener("focusout", () => checkYear());
 toYear.addEventListener("focusout", () => checkYear());
 
 function calculateResults() {
-    const diffObj = intervalToDuration({
+    var diffObj = intervalToDuration({
         start: new Date(fromYear.value, fromMonth.value - 1, fromDay.value),
         end: new Date(toYear.value, toMonth.value - 1, toDay.value),
-    })
-    yearResult.textContent = diffObj.years ? diffObj.years : 0;
-    monthResult.textContent = diffObj.months ? diffObj.months : 0;
-    dayResult.textContent = diffObj.days ? diffObj.days + 2 : 0;
+    });
+    if (includeEndDate.checked) {
+        diffObj.days++;
+        if (diffObj.days > 31) {
+            diffObj.days = 0;
+            diffObj.months++;
+            if (diffObj.months > 12) {
+                diffObj.months = 0;
+                diffObj.years++;
+            }
+        }
+    }
+    if (diffObj.days > 30) {
+        diffObj.days = diffObj.days % 30;
+        diffObj.months = diffObj.months % 12;
+        if (diffObj.months > 12) diffObj.years = diffObj.years + 1;
+    }
+    if (includeYears.checked && includeMonths.checked && includeDays.checked) {
+        yearResult.textContent = diffObj.years ? diffObj.years : 0;
+        monthResult.textContent = diffObj.months ? diffObj.months : 0;
+        dayResult.textContent = diffObj.days ? diffObj.days : 0;
+    }
+    else if (!includeYears.checked && includeMonths.checked && includeDays.checked) {
+        yearResult.textContent = '--';
+        monthResult.textContent = diffObj.months ? diffObj.months + (diffObj.years * 12) : (diffObj.years * 12);
+        dayResult.textContent = diffObj.days ? diffObj.days : 0;
+    }
+    else if (!includeYears.checked && !includeMonths.checked && includeDays.checked) {
+        yearResult.textContent = "--";
+        monthResult.textContent = "--";
+        dayResult.textContent = diffObj.days ? diffObj.days + parseInt(diffObj.months * 30.4167) + (diffObj.years * 365) + countLeapYears(fromYear.value, toYear.value) : parseInt(diffObj.months * 30) + (diffObj.years * 365) + countLeapYears(fromYear.value, toYear.value);
+    }
 }
 
 calBtn.addEventListener("click", function () {
@@ -200,3 +256,4 @@ function changeTheme() {
         htmlTag.setAttribute("class", "");
     else htmlTag.setAttribute("class", "dark");
 }
+document.getElementById("themeButton").addEventListener("click", changeTheme)

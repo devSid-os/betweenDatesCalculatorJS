@@ -6,19 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./output.css">
     <title>Time Calculator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
-    <script
-        src="https://raw.githubusercontent.com/codebox/moment-precise-range/master/moment-precise-range.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body class="bg-[#e7e4e4] dark:bg-[#1f1f1f]">
     <main class="flex justify-center items-center min-h-screen w-[100%]">
         <!-- Theme Button -->
-        <div onclick="changeTheme()"
+        <button type="button" id="themeButton"
             class="fixed bottom-4 right-4 rounded-full shadow-lg cursor-pointer transition-all py-1 px-2 bg-[#1f1f1f] dark:bg-white text-white dark:text-[#1f1f1f]">
             <i class="fa fa-sun-o"></i>
-        </div>
+        </button>
         <!-- Main Div -->
         <div class="w-[90%] md:w-[60%] flex flex-col gap-2 rounded-md bg-[#1f1f1f] dark:bg-white p-4  md:p-6">
             <!-- Input From Date Div -->
@@ -78,9 +75,35 @@
             </div>
             <!-- Comparision Error -->
             <p id="cError" class="hidden tracking-wider font-bold text-center text-sm text-[red]">From Date cannot be
-                bigger than To
-                Date
+                bigger than To Date
             </p>
+            <!-- CheckBoxes Div -->
+            <div class="w-full flex flex-col md:flex-row md:justify-between gap-1">
+                <!-- Calculate in Years -->
+                <div class="flex gap-2">
+                    <input checked type="checkbox" id="includeYears">
+                    <label class="select-none tracking-wider text-sm text-white dark:text-black"
+                        for="includeYears">Include Years</label>
+                </div>
+                <!-- Calculate in Months -->
+                <div class="flex gap-2">
+                    <input checked type="checkbox" id="includeMonths">
+                    <label class="select-none tracking-wider text-sm text-white dark:text-black"
+                        for="includeMonths">Include Months</label>
+                </div>
+                <!-- Calculate in Days -->
+                <div class="flex gap-2">
+                    <input checked type="checkbox" id="includeDays">
+                    <label class="select-none tracking-wider text-sm text-white dark:text-black"
+                        for="includeDays">Include Days</label>
+                </div>
+                <!-- Include End Date Check Box -->
+                <div class="flex gap-2">
+                    <input type="checkbox" id="includeEndDate">
+                    <label class="select-none tracking-wider text-sm text-white dark:text-black"
+                        for="includeEndDate">Include End Date</label>
+                </div>
+            </div>
             <!-- Calculate Button -->
             <button id="calBtn"
                 class="my-2 text-white bg-purple-700 tracking-wide rounded-sm font-bold py-2 focus:outline-none">Calculate</button>

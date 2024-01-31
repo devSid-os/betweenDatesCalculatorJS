@@ -174,6 +174,18 @@ function calculateResults() {
     }
 }
 
+function onCheckBoxesChange() {
+    if (includeDays.checked) return;
+    if (includeYears.checked && includeMonths.checked && includeDays.checked) return;
+    else {
+        document.getElementById("includeDays").checked = true;
+        document.getElementById("includeMonths").checked = true;
+    }
+}
+includeYears.addEventListener("click", onCheckBoxesChange);
+includeMonths.addEventListener("click", onCheckBoxesChange);
+includeDays.addEventListener("click", onCheckBoxesChange);
+
 calBtn.addEventListener("click", function () {
 
     if (fromMonth.value == 2) {

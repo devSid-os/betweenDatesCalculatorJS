@@ -162,17 +162,21 @@ function calculateResults() {
     dayResult.textContent = diffObj.days ? diffObj.days : 0;
     if (!includeYears.checked && includeMonths.checked && includeDays.checked) {
         yearResult.textContent = '--';
-        monthResult.textContent = parseInt(monthResult.textContent) + (diffObj?.years * 12);
+        if (diffObj.years)
+            monthResult.textContent = parseInt(monthResult.textContent) + (diffObj.years * 12);
     }
     else if (!includeYears.checked && !includeMonths.checked && includeDays.checked) {
         yearResult.textContent = "--";
         monthResult.textContent = "--";
-        dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj?.months * 30.4167) + (diffObj?.years * 365) + countLeapYears(fromYear.value, toYear.value);
+        if (diffObj.months && diffObj.years)
+            dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj.months * 30.4167) + (diffObj?.years * 365) + countLeapYears(fromYear.value, toYear.value);
     }
     else if (includeYears.checked && !includeMonths.checked && includeDays.checked) {
+        console.log(diffObj)
         yearResult.textContent = diffObj.years ? diffObj.years : 0;
         monthResult.textContent = "--";
-        dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj.months * 30.4167);
+        if (diffObj.months)
+            dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj.months * 30.4167);
     }
 }
 

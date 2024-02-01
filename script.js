@@ -166,10 +166,15 @@ function calculateResults() {
             monthResult.textContent = parseInt(monthResult.textContent) + (diffObj.years * 12);
     }
     else if (!includeYears.checked && !includeMonths.checked && includeDays.checked) {
+        console.log(countLeapYears(fromYear.value, toYear.value))
         yearResult.textContent = "--";
         monthResult.textContent = "--";
-        if (diffObj.months && diffObj.years)
-            dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj.months * 30.4167) + (diffObj?.years * 365) + countLeapYears(fromYear.value, toYear.value);
+        if (diffObj.months) {
+            dayResult.textContent = parseInt(dayResult.textContent) + parseInt(diffObj.months * 30.4167) + (diffObj.years ? diffObj.years * 365 : 0) + countLeapYears(fromYear.value, toYear.value);
+        }
+        else if (diffObj.years) {
+            dayResult.textContent = parseInt(dayResult.textContent) + (diffObj.months ? parseInt(diffObj.months * 30.4167) : 0) + (diffObj.years * 365) + countLeapYears(fromYear.value, toYear.value);
+        }
     }
     else if (includeYears.checked && !includeMonths.checked && includeDays.checked) {
         console.log(diffObj)

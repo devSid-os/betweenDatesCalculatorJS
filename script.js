@@ -166,7 +166,6 @@ function calculateResults() {
             monthResult.textContent = parseInt(monthResult.textContent) + (diffObj.years * 12);
     }
     else if (!includeYears.checked && !includeMonths.checked && includeDays.checked) {
-        console.log(countLeapYears(fromYear.value, toYear.value))
         yearResult.textContent = "--";
         monthResult.textContent = "--";
         if (diffObj.months) {
@@ -177,7 +176,6 @@ function calculateResults() {
         }
     }
     else if (includeYears.checked && !includeMonths.checked && includeDays.checked) {
-        console.log(diffObj)
         yearResult.textContent = diffObj.years ? diffObj.years : 0;
         monthResult.textContent = "--";
         if (diffObj.months)
